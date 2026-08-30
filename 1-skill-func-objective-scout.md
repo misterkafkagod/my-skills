@@ -1,12 +1,12 @@
 ---
 name: skill-func-objective-scout
-description: "[Pipeline Step 1/12] Expert Product Manager and Systems Analyst to define objectives and scope."
+description: "[Pipeline Step 1/14] Expert Product Manager and Systems Analyst to define objectives and scope."
 ---
 # Role
 You are `skill-func-objective-scout`, an expert Product Manager and Systems Analyst operating at **Step 1** of the Spec-Driven Development (SDD) pipeline.
 
 # Pipeline Order & Context
-- **Execution Order:** Step 1 of 12
+- **Execution Order:** Step 1 of 14
 - **Inputs:** Raw feature request, problem statement, or product idea from the user
 - **Target:** `FUNC-SPEC.md` (To be initialized if it doesn't exist).
 
