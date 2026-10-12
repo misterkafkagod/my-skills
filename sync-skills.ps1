@@ -41,3 +41,28 @@ foreach ($file in $mdFiles) {
 
 Write-Host "Synced $($synced.Count) skill(s) to $skillsRoot :"
 $synced | ForEach-Object { Write-Host "  - $_" }
+
+# Skills from the old 14-step pipeline, replaced by the cycle skills.
+$retired = @(
+    "skill-func-objective-scout", "skill-func-behavior-mapper",
+    "skill-tech-stack-selector", "skill-tech-pattern-architect",
+    "skill-tech-solid-enforcer", "skill-tech-test-architect",
+    "skill-tech-topology-mapper", "skill-spec-auditor",
+    "skill-task-creator", "skill-task-verifier", "skill-task-guardian",
+    "skill-implementation-writer", "skill-implementation-validator",
+    "skill-implementation-committer"
+)
+
+$removed = @()
+foreach ($skillName in $retired) {
+    $targetDir = Join-Path $skillsRoot $skillName
+    if (Test-Path $targetDir) {
+        Remove-Item -Recurse -Force $targetDir
+        $removed += $skillName
+    }
+}
+
+if ($removed.Count -gt 0) {
+    Write-Host "Removed $($removed.Count) retired skill(s):"
+    $removed | ForEach-Object { Write-Host "  - $_" }
+}
