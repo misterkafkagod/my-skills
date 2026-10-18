@@ -42,7 +42,7 @@ foreach ($file in $mdFiles) {
 Write-Host "Synced $($synced.Count) skill(s) to $skillsRoot :"
 $synced | ForEach-Object { Write-Host "  - $_" }
 
-# Skills from the old 14-step pipeline, replaced by the cycle skills.
+# Skills from older pipelines (14-step, then cycle-based), replaced by the phase skills.
 $retired = @(
     "skill-func-objective-scout", "skill-func-behavior-mapper",
     "skill-tech-stack-selector", "skill-tech-pattern-architect",
@@ -50,7 +50,9 @@ $retired = @(
     "skill-tech-topology-mapper", "skill-spec-auditor",
     "skill-task-creator", "skill-task-verifier", "skill-task-guardian",
     "skill-implementation-writer", "skill-implementation-validator",
-    "skill-implementation-committer"
+    "skill-implementation-committer",
+    "skill-cycle-scope", "skill-cycle-design", "skill-cycle-plan",
+    "skill-cycle-build", "skill-cycle-review"
 )
 
 $removed = @()

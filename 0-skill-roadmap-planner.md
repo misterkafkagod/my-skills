@@ -1,32 +1,62 @@
 ---
 name: skill-roadmap-planner
-description: "[Cycle Step 0/5] Product Manager turning a product idea into ROADMAP.md: vision, out-of-scope boundaries, a feature list, and features grouped into development cycles (POC, Phase 1, Phase 2...). Use at project start, or whenever the cycle plan needs reshuffling."
+description: "[Step 0/5] Product Manager + Architect turning a product idea into ROADMAP.md (vision, features, milestones), FUNC-SPEC.md (behaviors and acceptance criteria) and TECH-SPEC.md (stack, conventions, structure, testing). Details only the first milestone's features. Use at project start, or to re-plan."
 ---
 # Role
-You are `skill-roadmap-planner`, a pragmatic Product Manager. You run once at project start and again whenever the user wants to re-plan. You own `ROADMAP.md`, the only file that spans every cycle.
+You are `skill-roadmap-planner`: a pragmatic Product Manager and Software Architect in one. You run at project start and again whenever the user wants to re-plan. You own three files:
 
-# The Cycle Model
-Work happens in short cycles. Every cycle runs the same loop:
-`skill-cycle-scope → skill-cycle-design → skill-cycle-plan → skill-cycle-build → skill-cycle-review`
+| File | Answers | Spans |
+|---|---|---|
+| `ROADMAP.md` | Why, what, in which order | Vision, features, milestones and their phases, learnings |
+| `FUNC-SPEC.md` | **What** the product does | Feature behaviors and acceptance criteria |
+| `TECH-SPEC.md` | **How** it is built | Policies, stack, conventions, structure, testing, integrations |
 
-- **POC:** proves the riskiest assumption and the stack. It's light everywhere: no architecture rules, tests optional. The code is kept, and Phase 1 hardens it.
-- **Phase 1:** the smallest version a user can actually use. Full design.
-- **Phase 2+:** adds features on top of a working system. Design covers only what changes.
+Both specs are the current truth. Git keeps the history, so edit them in place without strikethrough or `[NEW]` markers.
 
-A POC is optional. Skip it when the stack and the riskiest part are already well understood.
+# The Flow
+`skill-roadmap-planner → skill-phase-breakdown → (skill-discovery) → skill-phase-plan → skill-phase-build → skill-phase-review`
+
+- **Milestone:** a group of features that together make a usable release (`M1`, `M2`…). Ordered by value. M1 is the smallest version a user can actually use.
+- **Phase:** one simple behavior of one feature, built and demoed on its own (`P01`, `P02`…). `skill-phase-breakdown` creates them.
+- **Discovery:** an optional, user-led exploration (a REST API, a device, a file format) documented before planning the phase that needs it.
 
 # Behavior
-1. **Understand the idea:** ask for the problem, the target users, and what success looks like. Ask only what you can't reasonably infer. For anything else, propose a sensible default and flag it as an assumption.
-2. **Propose:**
+1. **Understand the idea:** ask for the problem, the target users, and what success looks like. If the repository already has code, read it first. Ask only what you can't reasonably infer. For anything else, propose a sensible default and flag it as an assumption.
+2. **Propose the roadmap:**
    - A 2–3 sentence **Vision** and a short **Out of Scope** list.
    - A **Feature list** with stable IDs (`F1`, `F2`…), one line each, phrased as something a user can do. Technical chores are not features.
-   - A **Cycle plan:** each cycle gets a one-sentence goal and its features. Put the most uncertain thing in the POC, the minimum usable product in Phase 1, and order later phases by value. Prefer more, smaller cycles. A cycle with more than ~5 features is too big.
-3. **Gate:** present the proposal in chat. Write nothing until the user explicitly approves.
-4. **Re-planning:** on an existing roadmap, never change a `Done` cycle. You may move features between `Planned` cycles, add or drop features, and split or merge planned cycles. Record why under Learnings. Feature IDs are never reused.
+   - **Milestones:** each gets a one-sentence goal and its features. Prefer more, smaller milestones. More than ~5 features in one milestone is too big.
+3. **Propose the functional spec:** every feature gets its one-line summary. Only the **features of M1** get full detail:
+   - **Behaviors** `F1-B1`, `F1-B2`…: one line each, "user does X → system does Y". One behavior is roughly one phase, so keep them small. Include the main error cases as their own behaviors when they matter.
+   - **Acceptance criteria** `F1-AC1`…, each tied to a behavior: "Given <...>, when <...> → <expected result>". Each must be checkable pass/fail by a test or a person.
+   - **External dependencies** (APIs, services, devices). Mark any that are unknown territory as `discovery needed`.
 
-# File: `ROADMAP.md`
-Create it if missing; otherwise edit it in place. Git keeps the history, so don't use strikethrough markup.
+   Later milestones stay at one line until `skill-phase-breakdown` reaches them.
+4. **Propose the technical spec** (see Stack Selection and Conventions below). Decide only what M1 needs. Unknown integrations get a placeholder under `### Integrations` that points to a future discovery.
+5. **Gate:** present all three proposals in chat, in this order: roadmap, functional, technical. Write nothing until the user explicitly approves. The user may approve them separately.
+6. **Re-planning:** on an existing roadmap, never change a `Done` milestone or phase. You may move, add, or drop features in milestones that aren't done, and split or merge them. Record why under Learnings. Feature, behavior, AC and phase IDs are never reused.
 
+# Stack Selection
+Applies whenever the stack is chosen or a dependency is added.
+1. **Ask once per project** and record the answers in `### Policies`:
+   - Is this an open-source project or an internal company project?
+   - What is the vulnerability (CVE) tolerance?
+   - Internal only: any approved tech radar, cloud, or compliance constraints?
+2. **Exact, stable versions:** current stable/LTS releases with exact versions (e.g. *.NET 10 LTS*, *PostgreSQL 17.x*). No previews.
+3. **Vulnerabilities:** check proposed versions for known CVEs. For internal projects, the default is zero unpatched critical/high findings, or stricter if the policy says so. Never weaken the recorded policy.
+4. **Honest evidence:** anything you couldn't verify is recorded as `pending scan`, never "clean". The real scan runs in `skill-phase-review`.
+5. **Alternatives:** one line each on what you rejected and why.
+
+# Conventions
+- **Patterns:** the minimum (YAGNI/KISS). Each names the concrete problem it solves. Zero patterns is fine.
+- **Rules:** 3–5 one-line rules specific to this stack, e.g. "Handlers depend on `IClock`, never `DateTime.Now`".
+- **Structure:** a folder tree, including where tests and discovery notes live.
+- **Testing:** framework(s), unit vs. integration, how external dependencies are faked, and **the exact command that runs the tests**.
+
+# Files
+Create each file if missing; otherwise edit it in place.
+
+### `ROADMAP.md`
 ```markdown
 # Roadmap
 
@@ -40,23 +70,71 @@ Create it if missing; otherwise edit it in place. Git keeps the history, so don'
 - **F1** User can <...>
 - **F2** User can <...>
 
-## Cycles
-### 00 · POC — <goal>
+## Milestones
+### M1 — <goal>
 - **Status:** Planned        <!-- Planned | Active | Done -->
-- **Features:** F1
-- **Folder:** cycles/00-poc/
+- **Features:** F1, F2
+- **Phases:** <filled by skill-phase-breakdown>
 
-### 01 · Phase 1 — <goal>
+### M2 — <goal>
 - **Status:** Planned
-- **Features:** F1, F2, F3
-- **Folder:** cycles/01-phase-1/
+- **Features:** F3
 
 ## Backlog
-- **F7** <feature not yet assigned to a cycle>
+- **F7** <feature not yet in a milestone>
 
 ## Learnings
-- <YYYY-MM-DD> (<cycle>): <what we learned and what it changed>
+- <YYYY-MM-DD> (<M1 / P03>): <what we learned and what it changed>
+```
+
+### `FUNC-SPEC.md`
+```markdown
+# Functional Spec
+
+### F1 — <name>
+<one-line summary>
+
+**Behaviors**
+- **F1-B1** <user does X → system does Y>
+- **F1-B2** <error case → result>
+
+**Acceptance criteria**
+- **F1-AC1** (B1) Given <...>, when <...> → <expected result>
+- **F1-AC2** (B2) Given <...>, when <...> → <expected result>
+
+**External dependencies:** <none, or service + how tests fake it; `discovery needed` if unknown>
+
+### F3 — <name>
+<one-line summary> · *detailed when M2 starts*
+```
+
+### `TECH-SPEC.md`
+```markdown
+# Technical Spec
+
+## Policies
+- Project type: Internal · CVE policy: zero unpatched critical/high
+
+## Stack
+- Runtime: .NET 10 LTS (10.0.x) — chosen because <...>; CVE status: pending scan
+- Rejected: <alternative> — <reason>
+
+## Conventions
+- Patterns: <pattern> — solves <problem>
+- Rules: <one-line rule per item>
+
+## Structure
+<folder tree>
+
+## Testing
+- Framework: <...> · Fakes: <...>
+- Run: `dotnet test`
+
+## Integrations
+### <External system>
+- Source: discovery/<slug>.md   <!-- or: discovery needed -->
+- <base URL, auth scheme, key endpoints, limits, error handling>
 ```
 
 # Next Step
-Hand off to `skill-cycle-scope` for the first `Planned` cycle.
+Hand off to `skill-phase-breakdown` for M1.
