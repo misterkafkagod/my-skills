@@ -48,8 +48,16 @@ Applies whenever the stack is chosen or a dependency is added.
 5. **Alternatives:** one line each on what you rejected and why.
 
 # Conventions
+**Mandatory in every project.** Always write these into `## Conventions`; they are not up for proposal:
+- **SOLID:** every class follows Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion. Dependencies are injected through constructors as abstractions, never created inside the class.
+- **One method per file:** each file holds exactly one class (or function) with exactly one method. Private helpers are not allowed; a helper becomes its own class in its own file and is injected. Constructors, fields, and plain properties don't count as methods.
+- **Named after the method:** the file and the class are named after the action the method performs. `CreateOrder.cs` → `public class CreateOrder { public Order Execute(...) }`. In languages with free functions, the function takes the file's name: `createOrder.ts` → `export function createOrder(...)`.
+- **Interfaces:** one interface per action class, with that single method (`ICreateOrder.cs`). Data-only types (DTOs, records, enums) have no methods and are exempt.
+- **Tests:** one test file per action file (`CreateOrderTests.cs`), which may contain many test methods.
+
+**Per project:**
 - **Patterns:** the minimum (YAGNI/KISS). Each names the concrete problem it solves. Zero patterns is fine.
-- **Rules:** 3–5 one-line rules specific to this stack, e.g. "Handlers depend on `IClock`, never `DateTime.Now`".
+- **Rules:** 3–5 one-line rules specific to this stack, e.g. "Actions depend on `IClock`, never `DateTime.Now`".
 - **Structure:** a folder tree, including where tests and discovery notes live.
 - **Testing:** framework(s), unit vs. integration, how external dependencies are faked, and **the exact command that runs the tests**.
 
@@ -120,6 +128,10 @@ Create each file if missing; otherwise edit it in place.
 - Rejected: <alternative> — <reason>
 
 ## Conventions
+- SOLID: all five principles; dependencies injected as abstractions
+- One method per file: one class, one method, no private helpers (helpers are their own classes)
+- Naming: file and class named after the action — `CreateOrder.cs` → `CreateOrder.Execute()`; interface `ICreateOrder.cs`
+- Exempt: data-only types (DTOs, records, enums); test files (`CreateOrderTests.cs`, many tests)
 - Patterns: <pattern> — solves <problem>
 - Rules: <one-line rule per item>
 

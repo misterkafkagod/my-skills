@@ -16,16 +16,17 @@ The phase in `ROADMAP.md`, `FUNC-SPEC.md` (its behaviors and ACs), `TECH-SPEC.md
 1. **Small tasks:** one task is one commit, usually a handful of files. A phase is 1–5 tasks. If you need more, the phase is too big: propose a split in `ROADMAP.md`.
 2. **Always runnable:** after every task the app still builds and the tests pass.
 3. **Inspect before naming:** read the repository before you name files. Mark files that don't exist yet as `(new)`. Never present an invented file or method as existing. When planning ahead, a file that an earlier phase's plan creates but isn't built yet is marked `(from T02.1)`; you may rely on it only as that plan describes it.
-4. **Tests travel with code:** a task that adds behavior also adds its tests. No separate "add tests" task at the end.
-5. **Use the discovery:** when a discovery exists, implement its Recipe, and fake the integration in tests with its fixtures. Don't re-explore.
-6. **Technical deltas:** if the phase needs a new dependency, module, or pattern not in `TECH-SPEC.md`, include it in the proposal following the spec's Stack Selection rules and Conventions.
+4. **One method per file:** name every file the task creates after its single action (`CreateOrder.cs`, `ICreateOrder.cs`, `CreateOrderTests.cs`), per `TECH-SPEC.md` `## Conventions`. A behavior that needs helpers lists each helper as its own file. Never plan a file that adds a second method to an existing class; plan a new action file instead.
+5. **Tests travel with code:** a task that adds behavior also adds its tests. No separate "add tests" task at the end.
+6. **Use the discovery:** when a discovery exists, implement its Recipe, and fake the integration in tests with its fixtures. Don't re-explore.
+7. **Technical deltas:** if the phase needs a new dependency, module, or pattern not in `TECH-SPEC.md`, include it in the proposal following the spec's Stack Selection rules and Conventions.
 
 # Task Format
 ```markdown
-- [ ] **T03.1 Add order import client** — Covers: F2-AC1
-  - Files: src/Shop/OrderClient.cs (new), tests/Shop/OrderClientTests.cs (new)
-  - Do: implement discovery recipe steps 1–3; read the key from `SHOP_API_KEY`; follow `next` links until empty; 401 → clear error.
-  - Done when: `dotnet test --filter OrderClient` passes, covering paging and the 401 case using discovery/shop-orders-api/fixtures.
+- [ ] **T03.1 Fetch shop orders** — Covers: F2-AC1
+  - Files: src/Shop/FetchOrdersPage.cs (new), src/Shop/IFetchOrdersPage.cs (new), src/Shop/FetchAllOrders.cs (new), src/Shop/IFetchAllOrders.cs (new), tests/Shop/FetchOrdersPageTests.cs (new), tests/Shop/FetchAllOrdersTests.cs (new)
+  - Do: `FetchOrdersPage` implements discovery recipe steps 1–2 (one request, key from `SHOP_API_KEY`, 401 → clear error); `FetchAllOrders` depends on `IFetchOrdersPage` and follows `next` links until empty.
+  - Done when: `dotnet test --filter "FetchOrdersPage|FetchAllOrders"` passes, covering paging and the 401 case using discovery/shop-orders-api/fixtures.
 ```
 - **ID:** `T<phase>.<n>`, e.g. `T03.1`.
 - **Covers:** AC IDs, or a `TECH-SPEC` item for setup or refactor tasks.
