@@ -17,7 +17,7 @@ Claude Code skills for phase-based, spec-driven development.
 3 skill-phase-plan           tasks + demo script                        ✅ approve
         │                    ↺ plan ahead: repeat 2–3 for every phase first
 4 skill-phase-build          implement → verify → commit                stops only on problems
-5 skill-phase-review         scan, your demo (+ retro on last phase)    ✅ you verify
+5 skill-phase-review         scan, demo run (+ retro on last phase)     ✅ approve the review
         │
         └──► next phase · next milestone (step 1) · re-plan (step 0)
 ```
