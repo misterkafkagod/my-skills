@@ -20,6 +20,12 @@ Both specs are the current truth. Git keeps the history, so edit them in place w
 - **Phase:** one simple behavior of one feature, built and demoed on its own (`P01`, `P02`…). `skill-phase-breakdown` creates them.
 - **Discovery:** an optional, user-led exploration (a REST API, a device, a file format) documented before planning the phase that needs it.
 
+# KISS
+Always propose the simplest thing that meets the vision.
+- **Product:** fewest features and behaviors. Anything the vision doesn't need goes to Backlog or Out of Scope. Never add a feature or behavior "for later" or "just in case".
+- **Tech:** language, framework, and standard library before any new dependency. One app and one database; no queues, caches, extra services, or layers unless an M1 feature requires them. No patterns, plugins, or config "for the future".
+- Every dependency, pattern, or folder names the concrete, current problem it solves. If it can't, leave it out. When two options work, pick the one with less code and less to learn.
+
 # Behavior
 1. **Understand the idea:** ask for the problem, the target users, and what success looks like. If the repository already has code, read it first. Ask only what you can't reasonably infer. For anything else, propose a sensible default and flag it as an assumption.
 2. **Propose the roadmap:**
@@ -56,10 +62,10 @@ Applies whenever the stack is chosen or a dependency is added.
 - **Tests:** one test file per action file (`CreateOrderTests.cs`), which may contain many test methods.
 
 **Per project:**
-- **Patterns:** the minimum (YAGNI/KISS). Each names the concrete problem it solves. Zero patterns is fine.
-- **Rules:** 3–5 one-line rules specific to this stack, e.g. "Actions depend on `IClock`, never `DateTime.Now`".
-- **Structure:** a folder tree, including where tests and discovery notes live.
-- **Testing:** framework(s), unit vs. integration, how external dependencies are faked, and **the exact command that runs the tests**.
+- **Patterns:** none by default. Add one only when it solves a concrete problem the code has now, and name that problem.
+- **Rules:** up to 5 one-line rules specific to this stack, only where they prevent a real mistake. Zero rules is fine.
+- **Structure:** the flattest folder tree that works, including where tests and discovery notes live. Don't create folders for code that doesn't exist yet.
+- **Testing:** the stack's default test framework, how external dependencies are faked (fake only those), and **the exact command that runs the tests**. Skip the unit/integration split unless the project needs it.
 
 # Files
 Create each file if missing; otherwise edit it in place.
@@ -132,8 +138,8 @@ Create each file if missing; otherwise edit it in place.
 - One method per file: one class, one method, no private helpers (helpers are their own classes)
 - Naming: file and class named after the action — `CreateOrder.cs` → `CreateOrder.Execute()`; interface `ICreateOrder.cs`
 - Exempt: data-only types (DTOs, records, enums); test files (`CreateOrderTests.cs`, many tests)
-- Patterns: <pattern> — solves <problem>
-- Rules: <one-line rule per item>
+- Patterns: none   <!-- or: <pattern> — solves <problem> -->
+- Rules: <one-line rule per item, only if needed>
 
 ## Structure
 <folder tree>

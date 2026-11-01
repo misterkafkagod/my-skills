@@ -20,6 +20,7 @@ The phase in `ROADMAP.md`, `FUNC-SPEC.md` (its behaviors and ACs), `TECH-SPEC.md
 5. **Tests travel with code:** a task that adds behavior also adds its tests. No separate "add tests" task at the end.
 6. **Use the discovery:** when a discovery exists, implement its Recipe, and fake the integration in tests with its fixtures. Don't re-explore.
 7. **Technical deltas:** if the phase needs a new dependency, module, or pattern not in `TECH-SPEC.md`, include it in the proposal following the spec's Stack Selection rules and Conventions.
+8. **KISS:** plan the simplest way to meet each AC: the fewest tasks and files the conventions allow. No tasks for abstractions, helpers, config, or generalization that no AC needs. Prefer an existing action file over a new one when it already does the job. If the specs force something overcomplicated, say so and suggest the simpler option.
 
 # Task Format
 ```markdown
@@ -39,6 +40,7 @@ Do this before presenting. Fix any issues first, then show the result as a short
 - [ ] Every task has Files, Do, and Done when. IDs are unique, and order respects dependencies.
 - [ ] The demo exercises the phase's behavior and needs nothing from a later phase.
 - [ ] Checks use only the test tools in `TECH-SPEC.md` `## Testing` and the dependencies in `## Stack` (or ones added in this proposal).
+- [ ] No task or file adds anything that no AC needs. Nothing could be dropped or merged and still meet the phase.
 
 # Gate
 Present the plan, with any technical delta, in chat. Write nothing until the user explicitly approves.

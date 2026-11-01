@@ -18,6 +18,7 @@ The phase file, `TECH-SPEC.md` (`## Policies`, `## Stack`, `## Testing`), `FUNC-
 4. **Human demo (hard stop):** present the phase's demo steps as a numbered list. Ask the user to run them and report the result, then wait for an explicit answer.
    - **If any step fails:** identify the task involved, add a fix task (e.g. `T03.5 Fix: <problem>`), set `Status: Building`, and hand off to `skill-phase-build`.
 5. **Notes:** propose 0–3 one-line notes: anything learned, a spec correction, or a new idea for the backlog. Skip if there's nothing worth recording.
+   - **KISS check:** name anything this phase built that is more complex than needed (unused code, dependencies, config, speculative options) and propose removing it as a fix task or backlog item.
 6. **Milestone close (only when this was the milestone's last phase):**
    - Confirm every AC of the milestone's features is covered by a `Done` phase.
    - Propose a 3–5 bullet retro: what worked, what didn't, what to change next milestone.

@@ -2,6 +2,8 @@
 
 Claude Code skills for phase-based, spec-driven development.
 
+**KISS above all:** every skill always picks the simplest option that meets the current scope. No speculative features, dependencies, patterns, layers, or config.
+
 ## The loop
 
 ```

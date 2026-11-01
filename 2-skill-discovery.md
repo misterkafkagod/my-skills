@@ -37,7 +37,7 @@ When the user says the goal is reached, propose:
 - **Facts:** auth scheme, base URLs, endpoints used, request and response shapes (with a trimmed sample), pagination, rate limits, error codes seen and what they mean, time zones and formats, quirks.
 - **Dead ends:** what didn't work and why, so nobody tries it again.
 - **Open questions:** what is still unverified.
-- **Spec impact:** concrete edits to `TECH-SPEC.md` (`## Integrations`, new dependencies via the Stack Selection rules, test fakes) and to `FUNC-SPEC.md` (behaviors or ACs that turned out different). Also say whether the phase still fits in one phase, or should be split in `ROADMAP.md`.
+- **Spec impact:** concrete edits to `TECH-SPEC.md` (`## Integrations`, new dependencies via the Stack Selection rules, test fakes), choosing the simplest integration that works (e.g. the stack's built-in HTTP client over a vendor SDK, unless the SDK clearly saves work) and to `FUNC-SPEC.md` (behaviors or ACs that turned out different). Also say whether the phase still fits in one phase, or should be split in `ROADMAP.md`.
 - **Test fixtures:** sample responses worth saving for tests, written to `discovery/<slug>/fixtures/` with secrets and personal data removed.
 
 **Gate:** present the distillation in chat. Write the spec edits only after the user explicitly approves. The step log itself never needs approval.
